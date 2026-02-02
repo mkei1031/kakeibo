@@ -9,7 +9,17 @@ st.title("📊 家計簿マネージャー")
 # --- 1. データ読み込み ---
 @st.cache_data(ttl=30)
 def load_data():
-    base_url = f"{st.secrets['gsheets']['public_url']}/gviz/tq?tqx=out:csv"
+# SecretsからURLを取得
+    raw_url = st.secrets['gsheets']['public_url']
+    
+    # ID部分だけを抽出する（より確実な方法）
+    # URLが https://docs.google.com/spreadsheets/d/XXXXX/edit... の想定
+    ss_id = raw_url.split('/d/')[1].split('/')[0]
+    
+    # CSV出力用のベースURL（export形式）
+    base_url = f"https://docs.google.com/spreadsheets/d/{ss_id}/export?format=csv"
+    
+    # 明細(gid=1775858850) と 予算(gid=1402210043) を読み込み
     df_logs = pd.read_csv(f"{base_url}&gid=1775858850")
     df_budget = pd.read_csv(f"{base_url}&gid=1402210043")
     
