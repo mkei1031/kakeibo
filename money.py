@@ -9,7 +9,7 @@ st.title("📊 家計簿マネージャー")
 # --- 1. データ読み込み ---
 @st.cache_data(ttl=30)
 def load_data():
-    base_url = "https://docs.google.com/spreadsheets/d/1nJ9cPEJT6fBLd2KRAxhGv-zGz6WdFCS1416_QtMw62Y/gviz/tq?tqx=out:csv"
+    base_url = f"{st.secrets['gsheets']['public_url']}/gviz/tq?tqx=out:csv"
     df_logs = pd.read_csv(f"{base_url}&gid=1775858850")
     df_budget = pd.read_csv(f"{base_url}&gid=1402210043")
     
